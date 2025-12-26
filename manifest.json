@@ -1,0 +1,23 @@
+{
+  "name": "幸福教養｜零用錢練功房",
+  "short_name": "零用錢練功房",
+  "description": "用遊戲練前額葉，用制度養金錢感。不是記帳，是自我管理訓練。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f3d2e",
+  "theme_color": "#0f3d2e",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
