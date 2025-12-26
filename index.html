@@ -14,6 +14,16 @@
   <link rel="apple-touch-icon" href="./icon-192.png" />
 
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- ✅ 只補「必要的小修」：避免標題尷尬斷字、空狀態更友善（不破壞你原本 CSS） -->
+  <style>
+    .hp-title { line-height: 1.15; }
+    .hp-title .nowrap { white-space: nowrap; }
+    .hp-sub { margin-top: 6px; }
+    .muted { opacity: .72; }
+    .softTip { margin-top: 10px; font-size: 14px; opacity: .75; }
+    .btn.disabled, .disabled { opacity: .45; pointer-events: none; filter: grayscale(1); }
+  </style>
 </head>
 
 <body>
@@ -23,16 +33,27 @@
       <div class="brand">
         <div class="logoDot"></div>
         <div>
-          <h1>幸福教養｜零用錢練功房</h1>
-          <p class="sub">v0.1.1 陪跑版｜用遊戲練前額葉，用制度養金錢感</p>
+          <!-- ✅ 手機友善：刻意分行，而不是被擠爆 -->
+          <h1 class="hp-title">
+            幸福教養｜<span class="nowrap">零用錢練功房</span>
+          </h1>
+
+          <p class="sub hp-sub">
+            v0.1.1 陪跑版｜用遊戲練前額葉，用制度養金錢感
+          </p>
         </div>
       </div>
 
       <div class="chips">
-        <div class="chip">今天：<b id="todayText">-</b></div>
+        <div class="chip">今天：<b id="todayText">尚未開始</b></div>
         <div class="chip">連續：<b id="streakText">0</b> 天</div>
         <div class="chip">功德幣：<b id="coinText">0</b></div>
         <button class="chipBtn" id="btnOpenSettings" type="button">家長設定</button>
+      </div>
+
+      <!-- ✅ 空狀態安撫一句話：避免 0/0/0 被誤會壞掉 -->
+      <div class="softTip" id="startHint">
+        還沒開始練功也沒關係，點一張卡就會開始記錄。
       </div>
     </header>
 
@@ -41,7 +62,7 @@
       <section class="card">
         <div class="cardHead">
           <h2>本月練功狀態</h2>
-          <div class="pill" id="monthPill">-</div>
+          <div class="pill" id="monthPill">本月尚未開始</div>
         </div>
 
         <div class="grid3">
@@ -55,7 +76,7 @@
           </div>
           <div class="stat">
             <div class="k">寶箱狀態</div>
-            <div class="v"><span id="chestText">未解鎖</span></div>
+            <div class="v"><span id="chestText">尚未解鎖</span></div>
           </div>
         </div>
 
@@ -94,7 +115,7 @@
           <button class="btn ghost" id="btnHistory" type="button">練功紀錄</button>
         </div>
 
-        <div class="small" id="miniTip">-</div>
+        <div class="small muted" id="miniTip">提示：先「停一下」，再做選擇。</div>
       </section>
 
       <!-- ===== 陪跑回饋 v0.1.1（完成一輪再解鎖） ===== -->
@@ -106,7 +127,7 @@
 
         <p class="p">
           這份回饋會在你完成「一輪」後才解鎖。<br />
-          不是要你交作業，而是等你真的用過、感受到，再說幾句真話。
+          不是交作業，是等你真的用過、感受到，再說幾句真話。
         </p>
 
         <div class="row">
@@ -118,12 +139,14 @@
             data-feedback-url="https://forms.gle/srBRWJn1BTQCWd5Z7"
           >留下陪跑回饋（完成一輪後解鎖）</a>
 
+          <!-- 自願名單：先留空，之後你要做再補網址 -->
           <a
             id="btnVoluntaryList"
             class="btn ghost"
             href="#"
+            aria-disabled="true"
             data-voluntary-url=""
-          >自願留下來</a>
+          >自願留下來（可不填）</a>
         </div>
 
         <div class="small muted">
@@ -173,23 +196,20 @@
         </div>
       </section>
 
-      <!-- ===== Footer ===== -->
       <footer class="footer">
-        <div class="small muted">
-          © 幸福教養｜零用錢練功房 · happy-pocket
-        </div>
+        <div class="small muted">© 幸福教養｜零用錢練功房 · happy-pocket</div>
       </footer>
     </main>
   </div>
 
   <script src="./app.js"></script>
 
-  <!-- Service Worker 註冊（GitHub Pages / PWA 離線） -->
+  <!-- ✅ PWA / GitHub Pages：Service Worker -->
   <script>
     (function () {
       if (!("serviceWorker" in navigator)) return;
       window.addEventListener("load", function () {
-        navigator.serviceWorker.register("./sw.js").catch(function () {});
+        navigator.serviceWorker.register("./sw.js").catch(function(){});
       });
     })();
   </script>
