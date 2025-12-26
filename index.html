@@ -110,7 +110,6 @@
         </p>
 
         <div class="row">
-          <!-- 預設鎖住：JS 會在「完成一輪 / 開寶箱」後解鎖並加上 href -->
           <a
             id="btnFeedback"
             class="btn ghost disabled"
@@ -184,5 +183,15 @@
   </div>
 
   <script src="./app.js"></script>
+
+  <!-- Service Worker 註冊（GitHub Pages / PWA 離線） -->
+  <script>
+    (function () {
+      if (!("serviceWorker" in navigator)) return;
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js").catch(function () {});
+      });
+    })();
+  </script>
 </body>
 </html>
