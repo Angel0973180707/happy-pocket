@@ -9,56 +9,37 @@
   <meta name="theme-color" content="#0f3d2e" />
   <meta name="background-color" content="#0f3d2e" />
   <meta name="description" content="用遊戲練前額葉，用制度養金錢感。不是記帳，是自我管理訓練。" />
-  <link rel="manifest" href="./manifest.json" />
+  <link rel="manifest" href="./manifest.json?v=0111" />
   <link rel="icon" href="./icon-192.png" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
 
-  <link rel="stylesheet" href="./styles.css" />
-
-  <!-- ✅ 只補「必要的小修」：避免標題尷尬斷字、空狀態更友善（不破壞你原本 CSS） -->
-  <style>
-    .hp-title { line-height: 1.15; }
-    .hp-title .nowrap { white-space: nowrap; }
-    .hp-sub { margin-top: 6px; }
-    .muted { opacity: .72; }
-    .softTip { margin-top: 10px; font-size: 14px; opacity: .75; }
-    .btn.disabled, .disabled { opacity: .45; pointer-events: none; filter: grayscale(1); }
-  </style>
+  <!-- ✅ cache-bust：確保 GitHub Pages 不黏舊 CSS -->
+  <link rel="stylesheet" href="./styles.css?v=0111" />
 </head>
 
 <body>
-  <div class="app">
-    <!-- ===== Header ===== -->
+  <div class="wrap">
     <header class="top">
       <div class="brand">
-        <div class="logoDot"></div>
-        <div>
-          <!-- ✅ 手機友善：刻意分行，而不是被擠爆 -->
-          <h1 class="hp-title">
-            幸福教養｜<span class="nowrap">零用錢練功房</span>
-          </h1>
-
-          <p class="sub hp-sub">
-            v0.1.1 陪跑版｜用遊戲練前額葉，用制度養金錢感
-          </p>
+        <div class="dot" aria-hidden="true"></div>
+        <div class="brandText">
+          <h1>幸福教養｜<span class="nowrap">零用錢練功房</span></h1>
+          <p class="sub">v0.1.1 陪跑版｜用遊戲練前額葉，用制度養金錢感</p>
         </div>
       </div>
 
-      <div class="chips">
+      <div class="bar">
         <div class="chip">今天：<b id="todayText">尚未開始</b></div>
         <div class="chip">連續：<b id="streakText">0</b> 天</div>
         <div class="chip">功德幣：<b id="coinText">0</b></div>
         <button class="chipBtn" id="btnOpenSettings" type="button">家長設定</button>
       </div>
 
-      <!-- ✅ 空狀態安撫一句話：避免 0/0/0 被誤會壞掉 -->
-      <div class="softTip" id="startHint">
-        還沒開始練功也沒關係，點一張卡就會開始記錄。
-      </div>
+      <div class="softTip" id="startHint">還沒開始也沒關係，點一張卡就會開始記錄。</div>
     </header>
 
     <main class="main">
-      <!-- ===== 狀態卡 ===== -->
+      <!-- 本月狀態 -->
       <section class="card">
         <div class="cardHead">
           <h2>本月練功狀態</h2>
@@ -80,13 +61,10 @@
           </div>
         </div>
 
-        <div class="hint">
-          不是記帳，不記每一筆花費；<br />
-          只練「停一下 → 算一下 → 做選擇」。
-        </div>
+        <p class="hint">不是記帳，不記每一筆花費；只練「停一下 → 算一下 → 做選擇」。</p>
       </section>
 
-      <!-- ===== 練功卡 ===== -->
+      <!-- 三張卡 -->
       <section class="card">
         <div class="cardHead">
           <h2>三張練功卡</h2>
@@ -94,19 +72,19 @@
         </div>
 
         <div class="gridCards">
-          <button class="actionCard" data-action="brake" type="button">
-            <div class="aTitle">剎車卡</div>
-            <div class="aDesc">10 秒停一下，讓大腦換檔</div>
+          <button class="aCard" data-action="brake" type="button">
+            <div class="t">剎車卡</div>
+            <div class="d">10 秒停一下，讓大腦換檔</div>
           </button>
 
-          <button class="actionCard" data-action="time" type="button">
-            <div class="aTitle">時間卡</div>
-            <div class="aDesc">把金額換算成幾天零用錢</div>
+          <button class="aCard" data-action="time" type="button">
+            <div class="t">時間卡</div>
+            <div class="d">把金額換算成幾天零用錢</div>
           </button>
 
-          <button class="actionCard" data-action="nowant" type="button">
-            <div class="aTitle">無欲卡</div>
-            <div class="aDesc">先不買，把選擇留住</div>
+          <button class="aCard" data-action="nowant" type="button">
+            <div class="t">無欲卡</div>
+            <div class="d">先不買，把選擇留住</div>
           </button>
         </div>
 
@@ -115,11 +93,11 @@
           <button class="btn ghost" id="btnHistory" type="button">練功紀錄</button>
         </div>
 
-        <div class="small muted" id="miniTip">提示：先「停一下」，再做選擇。</div>
+        <div class="mini" id="miniTip">提示：先「停一下」，再做選擇。</div>
       </section>
 
-      <!-- ===== 陪跑回饋 v0.1.1（完成一輪再解鎖） ===== -->
-      <section class="card" id="feedbackCard">
+      <!-- 回饋（完成一輪解鎖） -->
+      <section class="card">
         <div class="cardHead">
           <h2>陪跑回饋（自願）</h2>
           <div class="pill subtle">不影響使用</div>
@@ -138,80 +116,53 @@
             aria-disabled="true"
             data-feedback-url="https://forms.gle/srBRWJn1BTQCWd5Z7"
           >留下陪跑回饋（完成一輪後解鎖）</a>
-
-          <!-- 自願名單：先留空，之後你要做再補網址 -->
-          <a
-            id="btnVoluntaryList"
-            class="btn ghost"
-            href="#"
-            aria-disabled="true"
-            data-voluntary-url=""
-          >自願留下來（可不填）</a>
         </div>
 
-        <div class="small muted">
+        <div class="mini muted">
           ✅ 不填信箱也可以送出（表單內可選填）<br />
           ✅ 不填也不影響工具使用
         </div>
       </section>
 
-      <!-- ===== 安裝說明 ===== -->
+      <!-- 安裝說明 -->
       <section class="card">
         <div class="cardHead">
-          <h2>把練功房放進你的口袋</h2>
+          <h2>安裝到主畫面（像 App 一樣用）</h2>
           <div class="pill subtle">加入主畫面</div>
         </div>
-
-        <p class="p">
-          你可以把《零用錢練功房》加入手機主畫面，像 App 一樣使用。<br />
-          不用下載、不用登入，也能離線陪孩子練習。
-        </p>
 
         <div class="grid3">
           <div class="stat">
             <div class="k">Android（Chrome）</div>
-            <div class="small">
-              1. 右上角「︙」<br />
-              2. 選「加入主畫面」<br />
-              3. 完成
-            </div>
+            <div class="mini">右上角︙ → 加入主畫面</div>
           </div>
-
           <div class="stat">
             <div class="k">iPhone（Safari）</div>
-            <div class="small">
-              1. 點下方「分享」<br />
-              2. 選「加入主畫面」<br />
-              3. 完成
-            </div>
+            <div class="mini">分享 → 加入主畫面</div>
           </div>
-
           <div class="stat">
             <div class="k">安心提醒</div>
-            <div class="small">
-              所有資料只存在你的手機，<br />
-              不蒐集、不上傳、不干擾。
-            </div>
+            <div class="mini">資料只在手機，不蒐集不上傳</div>
           </div>
         </div>
       </section>
 
       <footer class="footer">
-        <div class="small muted">© 幸福教養｜零用錢練功房 · happy-pocket</div>
+        <div class="mini muted">© 幸福教養｜零用錢練功房 · happy-pocket</div>
       </footer>
     </main>
   </div>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=0111"></script>
 
-  <!-- ✅ PWA / GitHub Pages：Service Worker -->
+  <!-- ✅ SW：版本化註冊，降低黏舊 -->
   <script>
     (function () {
       if (!("serviceWorker" in navigator)) return;
       window.addEventListener("load", function () {
-        navigator.serviceWorker.register("./sw.js").catch(function(){});
+        navigator.serviceWorker.register("./sw.js?v=0111").catch(function(){});
       });
     })();
   </script>
 </body>
-</html>
+  </html>
